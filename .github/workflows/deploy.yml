@@ -1,0 +1,20 @@
+name: Deploy Weather App
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create config.js
+        run: |
+          echo "const CONFIG = { WEATHER_API_KEY: '${{ secrets.WEATHER_API_KEY }}' };" > config.js
+
+      - name: Upload to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: . # This uploads your whole project folder
+          branch: gh-pages # This creates a special "live" branch
